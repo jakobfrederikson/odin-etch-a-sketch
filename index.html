@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jakob's Etch-a-Sketch</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="page-container">
+        <div class="talk-to-em">
+            <h1>Jakob's Etch-a-Sketch</h1>
+            <a href="https://en.wikipedia.org/wiki/Etch_A_Sketch" target="_blank">What's an Etch-a-Sketch?</a>
+            <div class="buttons">
+                <button>Brush Colour</button>
+                <!-- <button id="show-grid">Show Grid</button> -->
+                <input type="range" min="1" max="40" value="20" class="slider" id="canvasSlider">
+                <div id="grid-size-text">20x20</div>
+                <button id="clear-screen-button">Clear Screen</button>
+            </div>
+        </div>        
+        <div id="container"></div>
+    </div>
+    
+    <script src="./script.js"></script>
+</body>
+</html>

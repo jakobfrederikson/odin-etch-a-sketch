@@ -1,0 +1,57 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 99vh;
+}
+
+.talk-to-em {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.talk-to-em h1 {
+    margin: 0;
+}
+
+.buttons {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+}
+
+.buttons p {
+    padding: 0px;
+}
+
+#container { 
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black; 
+    height: 600px;
+    width: 600px;
+}
+
+.row { 
+    display: flex;
+    flex: 1;
+}
+
+.square {
+    flex: 1;
+    transition: 0.05s;
+}
+
+.square-border {
+    border: 1px dashed black;
+}
+
+.clicked-square { background-color: black; }
+
+.square:hover { 
+    background-color: black; 
+    border-radius: 1em;
+}
