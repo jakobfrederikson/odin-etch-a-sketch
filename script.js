@@ -1,16 +1,18 @@
 // help with creating the grid:
 // https://stackoverflow.com/questions/11083345/creating-a-dynamic-grid-of-divs-with-javascript
 
-// Rainbow logic with help from:
+// Brush logic with help from:
 // https://github.com/michalosman/etch-a-sketch/blob/master/script.js
 
 
 const clearScreenBtn = document.getElementById("clear-screen-button");
-const brushBtn = document.getElementById("brush-btn");
+const brushBtn = document.getElementById("rainbow-btn");
+const eraserBtn = document.getElementById("eraser-btn");
 const slider = document.getElementById("canvasSlider");
 const gridSizeText = document.getElementById("grid-size-text");
 
-brushBtn.onclick = () => setBrushMode();
+brushBtn.onclick = () => setBrushMode("rainbow");
+eraserBtn.onclick = () => setBrushMode("eraser");
 
 let gridSize = slider.value;
 gridSizeText.textContent = `${gridSize}x${gridSize}`; // e.g: 20x20
@@ -24,7 +26,7 @@ document.body.onmousedown = () => (mouseDown = true);
 document.body.onmouseup = () => (mouseDown = false);
 
 const drawColour = "#000000";
-let brushMode = "rainbow";
+let brushMode = "normal";
 
 
 // Create the grid
@@ -64,6 +66,10 @@ function drawOnSquare(e)
     {
         e.target.style.backgroundColor = "#000000";
     }
+    else if (brushMode === "eraser")
+    {
+        e.target.style.backgroundColor = "#FFFFFF";
+    }
 }
 
 function randomBrushColour() {
@@ -73,11 +79,12 @@ function randomBrushColour() {
     return "rgb(" + r + "," + g + "," + b + ")";
 }
 
-function setBrushMode() {
-    if (brushMode === "normal")
-        brushMode = "rainbow";
-    else
-        brushMode = "normal";
+function setBrushMode(mode) {
+    if (brushMode === "rainbow" && mode === "rainbow") { brushMode = "normal"; return; }
+    if (brushMode === "eraser" && mode === "eraser") { brushMode = "normal"; return; }
+
+    if (mode === "rainbow") { brushMode = "rainbow"; return; }
+    if (mode === "eraser") { brushMode = "eraser"; return; }
 }
 
 // Clear screen functionality
