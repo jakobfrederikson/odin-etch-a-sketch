@@ -1,21 +1,31 @@
 // help with creating the grid:
 // https://stackoverflow.com/questions/11083345/creating-a-dynamic-grid-of-divs-with-javascript
 
-// A few 'controller' variables
+// Rainbow logic with help from:
+// https://github.com/michalosman/etch-a-sketch/blob/master/script.js
+
+
+const clearScreenBtn = document.getElementById("clear-screen-button");
+const brushBtn = document.getElementById("brush-btn");
 const slider = document.getElementById("canvasSlider");
 const gridSizeText = document.getElementById("grid-size-text");
+
+brushBtn.onclick = () => setBrushMode();
+
 let gridSize = slider.value;
-gridSizeText.textContent = `${gridSize}x${gridSize}`;
+gridSizeText.textContent = `${gridSize}x${gridSize}`; // e.g: 20x20
 
 const clickedSquareClass = "clicked-square";
 const squareClass = "square";
 const squareBorderClass = "square-border";
 
-let brushColour = "black";
-
 let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
 document.body.onmouseup = () => (mouseDown = false);
+
+const drawColour = "#000000";
+let brushMode = "rainbow";
+
 
 // Create the grid
 function updateGridSize(gridSize) {
@@ -37,8 +47,40 @@ function updateGridSize(gridSize) {
 }
 updateGridSize(gridSize);
 
+function updateSquares() {
+    const squares = Array.from(document.querySelectorAll(`.${squareClass}`));
+    squares.forEach(square => square.addEventListener("mouseover", drawOnSquare));
+    squares.forEach(square => square.addEventListener("mousedown", drawOnSquare));
+}
+
+function drawOnSquare(e)
+{
+    if (e.type === 'mouseover' && !mouseDown) return;
+    if (brushMode === "rainbow")
+    {
+        e.target.style.backgroundColor = randomBrushColour();
+    }
+    else if (brushMode === "normal")
+    {
+        e.target.style.backgroundColor = "#000000";
+    }
+}
+
+function randomBrushColour() {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    return "rgb(" + r + "," + g + "," + b + ")";
+}
+
+function setBrushMode() {
+    if (brushMode === "normal")
+        brushMode = "rainbow";
+    else
+        brushMode = "normal";
+}
+
 // Clear screen functionality
-const clearScreenBtn = document.getElementById("clear-screen-button");
 clearScreenBtn.addEventListener("click", function () {
     let colouredSquares = document.querySelectorAll(`.${clickedSquareClass}`);
     console.log(colouredSquares.length);
@@ -47,8 +89,6 @@ clearScreenBtn.addEventListener("click", function () {
         colouredSquares[i].classList.remove(`${clickedSquareClass}`);
     }
 });
-
-// Change the brush colour (use brushColour here)
 
 // Change the canvas size (use gridSize here)
 slider.oninput = function ()
@@ -79,22 +119,3 @@ slider.oninput = function ()
 //         }        
 //     });
 // }
-
-function updateSquares() {
-    // Set up the click event for each square
-    const squares = Array.from(document.querySelectorAll(`.${squareClass}`));
-
-    // Handle click and drag for painting on canvas
-    squares.forEach(square => square.addEventListener("mouseover", function () {
-        if (mouseDown && !square.classList.contains(`${clickedSquareClass}`))
-        {
-            square.classList.add(`${clickedSquareClass}`);
-        }      
-    }));
-
-    // Handle single clicks for paintings on canvas
-    squares.forEach(square => square.addEventListener("click", function () {
-        if (!square.classList.contains(`${clickedSquareClass}`));
-            square.classList.add(`${clickedSquareClass}`);
-    }));
-}

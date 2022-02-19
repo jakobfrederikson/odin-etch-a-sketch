@@ -54,5 +54,8 @@
 
 .square:hover { 
     background-color: black; 
-    border-radius: 1em;
+}
+
+#github {
+    margin: 20px;
 }
