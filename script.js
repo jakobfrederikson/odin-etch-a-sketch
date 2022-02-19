@@ -13,6 +13,10 @@ const squareBorderClass = "square-border";
 
 let brushColour = "black";
 
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
+
 // Create the grid
 function updateGridSize(gridSize) {
     const gridContainer = document.querySelector("#container")
@@ -29,13 +33,7 @@ function updateGridSize(gridSize) {
             row.appendChild(square); // put the square divs in the rows
         }
     }
-
-    // Set up the click even for each square
-    const squares = Array.from(document.querySelectorAll(`.${squareClass}`));
-    squares.forEach(square => square.addEventListener("click", function () {
-        square.classList.add(`${clickedSquareClass}`);
-    }));
-
+    updateSquares();
 }
 updateGridSize(gridSize);
 
@@ -81,3 +79,22 @@ slider.oninput = function ()
 //         }        
 //     });
 // }
+
+function updateSquares() {
+    // Set up the click event for each square
+    const squares = Array.from(document.querySelectorAll(`.${squareClass}`));
+
+    // Handle click and drag for painting on canvas
+    squares.forEach(square => square.addEventListener("mouseover", function () {
+        if (mouseDown && !square.classList.contains(`${clickedSquareClass}`))
+        {
+            square.classList.add(`${clickedSquareClass}`);
+        }      
+    }));
+
+    // Handle single clicks for paintings on canvas
+    squares.forEach(square => square.addEventListener("click", function () {
+        if (!square.classList.contains(`${clickedSquareClass}`));
+            square.classList.add(`${clickedSquareClass}`);
+    }));
+}

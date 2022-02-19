@@ -43,6 +43,7 @@
 .square {
     flex: 1;
     transition: 0.05s;
+    user-select: none; /* stops an issue where you could drag the square instead of draw */
 }
 
 .square-border {
