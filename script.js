@@ -4,30 +4,32 @@
 // Brush logic with help from:
 // https://github.com/michalosman/etch-a-sketch/blob/master/script.js
 
-
-const clearScreenBtn = document.getElementById("clear-screen-button");
 const brushBtn = document.getElementById("rainbow-btn");
 const eraserBtn = document.getElementById("eraser-btn");
+const showGridBtn = document.getElementById("show-grid");
 const slider = document.getElementById("canvasSlider");
 const gridSizeText = document.getElementById("grid-size-text");
+const clearScreenBtn = document.getElementById("clear-screen-button");
 
-clearScreenBtn.onclick = () => clearScreen();
 brushBtn.onclick = () => setBrushMode("rainbow");
 eraserBtn.onclick = () => setBrushMode("eraser");
-
-let gridSize = slider.value;
-gridSizeText.textContent = `${gridSize}x${gridSize}`; // e.g: 20x20
-
-const squareClass = "square";
-const squareBorderClass = "square-border";
+showGridBtn.onclick = () => toggleGrid();
+let gridOn = false;
+clearScreenBtn.onclick = () => clearScreen();
 
 let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
 document.body.onmouseup = () => (mouseDown = false);
 
+let gridSize = slider.value;
+gridSizeText.textContent = `${gridSize}x${gridSize}`; // e.g: 20x20
+
+const squareClass = "square";
+
 const drawColour = "#000000";
 let brushMode = "normal";
 
+// ------------------------------------------------------------------------------------------------
 
 // Create the grid
 function updateGridSize(gridSize) {
@@ -42,6 +44,8 @@ function updateGridSize(gridSize) {
         {
             const square = document.createElement("div");
             square.className = `${squareClass}`;
+            if (gridOn)
+                square.classList.add("show-grid");
             row.appendChild(square); // put the square divs in the rows
         }
     }
@@ -87,13 +91,11 @@ function setBrushMode(mode) {
     if (mode === "eraser") { brushMode = "eraser"; return; }
 }
 
-// Clear screen functionality
 function clearScreen() {
     const squares = Array.from(document.querySelectorAll(`.${squareClass}`));
     squares.forEach(square => square.style.backgroundColor = "#FFFFFF");
 }
 
-// Change the canvas size (use gridSize here)
 slider.oninput = function ()
 {
     gridSize = slider.value;
@@ -101,24 +103,16 @@ slider.oninput = function ()
     updateGridSize(gridSize);
 }
 
-// CURRENT BUG:
-//      - If grid is showing and we change the grid size, the grid goes away
-//      - possibly add a boolean check in updateGridSize to help this
-// Toggle the grid
-// const showGridBtn = document.getElementById("show-grid");
-// showGridBtn.addEventListener("click", toggleGrid());
-
-// function toggleGrid() 
-// {
-//     const squares = Array.from(document.querySelectorAll(`.${squareClass}`));
-//     showGridBtn.addEventListener("click", function() {
-//         if (squares[1].classList.contains(`${squareBorderClass}`))
-//         {
-//             squares.forEach(square => square.classList.remove(`${squareBorderClass}`));
-//         }
-//         else
-//         {
-//             squares.forEach(square => square.classList.add(`${squareBorderClass}`));
-//         }        
-//     });
-// }
+function toggleGrid() {
+    const squares = Array.from(document.querySelectorAll(`.${squareClass}`));
+    if (squares[0].classList.contains("show-grid"))
+    {
+        squares.forEach(square => square.classList.remove("show-grid"));
+        gridOn = false;
+    }        
+    else
+    {
+        squares.forEach(square => square.classList.add("show-grid"));
+        gridOn = true;
+    }        
+}
