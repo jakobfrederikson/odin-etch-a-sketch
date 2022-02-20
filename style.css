@@ -50,12 +50,6 @@
     border: 1px dashed black;
 }
 
-.clicked-square { background-color: black; }
-
-.square:hover { 
-    background-color: black; 
-}
-
 #github {
     margin: 20px;
 }

@@ -11,13 +11,13 @@ const eraserBtn = document.getElementById("eraser-btn");
 const slider = document.getElementById("canvasSlider");
 const gridSizeText = document.getElementById("grid-size-text");
 
+clearScreenBtn.onclick = () => clearScreen();
 brushBtn.onclick = () => setBrushMode("rainbow");
 eraserBtn.onclick = () => setBrushMode("eraser");
 
 let gridSize = slider.value;
 gridSizeText.textContent = `${gridSize}x${gridSize}`; // e.g: 20x20
 
-const clickedSquareClass = "clicked-square";
 const squareClass = "square";
 const squareBorderClass = "square-border";
 
@@ -88,14 +88,10 @@ function setBrushMode(mode) {
 }
 
 // Clear screen functionality
-clearScreenBtn.addEventListener("click", function () {
-    let colouredSquares = document.querySelectorAll(`.${clickedSquareClass}`);
-    console.log(colouredSquares.length);
-    for (let i = 0; i < colouredSquares.length; i++)
-    {
-        colouredSquares[i].classList.remove(`${clickedSquareClass}`);
-    }
-});
+function clearScreen() {
+    const squares = Array.from(document.querySelectorAll(`.${squareClass}`));
+    squares.forEach(square => square.style.backgroundColor = "#FFFFFF");
+}
 
 // Change the canvas size (use gridSize here)
 slider.oninput = function ()
